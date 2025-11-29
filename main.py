@@ -2,6 +2,9 @@ import os
 import logging
 import time
 import pyttsx3
+import pyautogui
+import webbrowser
+import subprocess
 from dotenv import load_dotenv
 import speech_recognition as sr
 from langchain_ollama import ChatOllama, OllamaLLM
@@ -18,6 +21,58 @@ from tools.arp_scan import arp_scan_terminal
 from tools.duckduckgo import duckduckgo_search_tool
 from tools.matrix import matrix_mode
 from tools.screenshot import take_screenshot
+from langchain_core.tools import tool
+
+@tool
+def open_application_or_url(query: str) -> str:
+    """Открывает любую программу или сайт. Примеры: github, steam, telegram, minecraft, discord, notepad"""
+    query = query.lower().strip()
+    
+    apps = {
+        "github": "https://github.com",
+        "git hub": "https://github.com",
+        "гитхаб": "https://github.com",
+        "steam": "steam://",
+        "стим": "steam://",
+        "telegram": "tg://",
+        "телеграм": "tg://",
+        "minecraft": "minecraft",
+        "майнкрафт": "minecraft",
+        "майн": "minecraft",
+        "discord": "discord",
+        "дискорд": "discord",
+        "notepad": "notepad",
+        "блокнот": "notepad",
+        "vscode": "code",
+        "code": "code",
+        "браузер": "https://google.com",
+        "chrome": "chrome",
+        "хром": "chrome",
+    }
+    
+    for key, value in apps.items():
+        if key in query:
+            if value.startswith("http"):
+                webbrowser.open(value)
+                return f"Открываю {key} в браузере"
+            elif value.endswith("://"):
+                webbrowser.open(value)
+                return f"Запускаю {key}"
+            else:
+                try:
+                    subprocess.Popen(value)
+                    return f"Запускаю {key}"
+                except:
+                    pyautogui.hotkey('win', 'r')
+                    pyautogui.typewrite(value)
+                    pyautogui.press('enter')
+                    return f"Открываю {key} через Win+R"
+    
+    # Если ничего не нашёл — просто Win+R
+    pyautogui.hotkey('win', 'r')
+    pyautogui.typewrite(query)
+    pyautogui.press('enter')
+    return f"Пытаюсь открыть: {query}"
 
 load_dotenv()
 
@@ -34,12 +89,12 @@ recognizer = sr.Recognizer()
 mic = sr.Microphone(device_index=MIC_INDEX)
 
 # Initialize LLM
-llm = ChatOllama(model="qwen3:1.7b", reasoning=False)
+llm = ChatOllama(model="llama3.2:3b", temperature=0.7)
 
 # llm = ChatOpenAI(model="gpt-4o-mini", api_key=api_key, organization=org_id) for openai
 
 # Tool list
-tools = [get_time, arp_scan_terminal, read_text_from_latest_image, duckduckgo_search_tool, matrix_mode, take_screenshot]
+tools = [get_time, arp_scan_terminal, read_text_from_latest_image, duckduckgo_search_tool, matrix_mode, take_screenshot, open_application_or_url]
 
 # Tool-calling prompt
 prompt = ChatPromptTemplate.from_messages(
@@ -137,5 +192,35 @@ def write():
         logging.critical(f"❌ Critical error in main loop: {e}")
 
 
+
 if __name__ == "__main__":
-    write()
+    import argparse
+    parser = argparse.ArgumentParser(description="JARVIS — голосовой или текстовый режим")
+    parser.add_argument("--text", action="store_true", help="Запуск в текстовом режиме (без микрофона)")
+    args = parser.parse_args()
+
+    if args.text:
+        print("JARVIS — ТЕКСТОВЫЙ РЕЖИМ (STELS). Пиши команды, 'exit' — выход")
+        while True:
+            try:
+                command = input("\nТы → ").strip()
+                if command.lower() in ["exit", "выход", "quit", "пока"]:
+                    print("JARVIS выключен.")
+                    break
+                if not command:
+                    continue
+
+                print("JARVIS думает...")
+                response = executor.invoke({"input": command})
+                answer = response["output"]
+                print(f"JARVIS → {answer}")
+
+            except KeyboardInterrupt:
+                print("\nJARVIS выключен.")
+                break
+            except Exception as e:
+                print(f"Ошибка: {e}")
+
+    else:
+        print("JARVIS — ГОЛОСОВОЙ РЕЖИМ активирован. Скажи 'Jarvis'...")
+        write()  # ← твоя оригинальная голосовая функция остаётся нетронутой
