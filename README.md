@@ -45,7 +45,7 @@
    ```
 
 2. **Set Up the Local Model**  
-   Ensure you have the `qwen3:1.7b` model available in Ollama.
+   Ensure you have the `llama3.2:3b` model available in Ollama.
 
 3. **Run Jarvis**  
    Start the assistant by running:
@@ -54,3 +54,8 @@
    ```
 ---
 
+## Tests
+
+```bash
+scripts/test_entrypoint.sh --all
+```

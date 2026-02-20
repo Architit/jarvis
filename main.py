@@ -11,6 +11,7 @@ import speech_recognition as sr
 
 from langchain_ollama import ChatOllama
 from langchain.agents import initialize_agent, AgentType, Tool
+from jarvis_core import resolve_open_target
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 load_dotenv()
@@ -18,15 +19,7 @@ load_dotenv()
 # --- УМНЫЙ ЗАПУСК (НЕ ЗАВИСИТ ОТ РАСКЛАДКИ) ---
 def open_app_function(query: str) -> str:
     """Открывает приложения через Win+R с использованием буфера обмена."""
-    query = query.lower().strip()
-    target = query
-    
-    # Маппинг для удобства
-    if "калькулятор" in query or "calc" in query: target = "calc.exe"
-    elif "блокнот" in query or "notepad" in query: target = "notepad.exe"
-    elif "cmd" in query or "терминал" in query: target = "cmd.exe"
-    elif "браузер" in query or "хром" in query: target = "https://google.com"
-    elif "steam" in query: target = "steam"
+    target = resolve_open_target(query)
 
     print(f"🔧 JARVIS TOOL: Пытаюсь открыть '{target}'...")
 
@@ -61,17 +54,19 @@ tools = [
     )
 ]
 
-print("🧠 Инициализация Ollama (llama3.2:3b)...")
-llm = ChatOllama(model="llama3.2:3b", temperature=0)
 
-print("🤖 Создание Агента...")
-agent_executor = initialize_agent(
-    tools=tools,
-    llm=llm,
-    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-    verbose=True,
-    handle_parsing_errors=True
-)
+def build_agent_executor():
+    print("🧠 Инициализация Ollama (llama3.2:3b)...")
+    llm = ChatOllama(model="llama3.2:3b", temperature=0)
+
+    print("🤖 Создание Агента...")
+    return initialize_agent(
+        tools=tools,
+        llm=llm,
+        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        verbose=True,
+        handle_parsing_errors=True
+    )
 
 def speak_text(text: str):
     try:
@@ -90,6 +85,7 @@ if __name__ == "__main__":
     print("\n" + "="*40)
     print("   JARVIS (LAYOUT INDEPENDENT) ГОТОВ")
     print("="*40 + "\n")
+    agent_executor = build_agent_executor()
 
     if args.text:
         print("📝 РЕЖИМ: ТЕКСТ (пиши 'exit' для выхода)")
