@@ -1,0 +1,5 @@
+# PHASE_F_P0_SAFETY_ROUTING_CONTRACT_V1
+- phase_f_p0_safety_routing_contract=ok
+- phase_f_circuit_breaker_routing_path=ok
+- phase_f_hard_stop_routing_path=ok
+- phase_f_manual_reauth_marker_scan=ok
