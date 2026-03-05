@@ -11,6 +11,7 @@ When a command is received through `main.py`:
 1. **Semantic Mapping:** Map the spoken or typed command to a specific `system_id` or `subtree_prefix`.
 2. **Topology Check:** Verify target existence in `SUBTREES_LOCK.md` or `REPO_MANIFEST.yaml`.
 3. **Address Resolution:** If the target is an organ (e.g., "Update the Archive"), resolve the path to `LRPT/chronolog` or `Trianiuma` accordingly.
+4. **Deterministic Outcome:** If no mapping to `system_id`/`subtree_prefix` is found, routing MUST fail fast with `unresolved_target` (no fallback execution).
 
 ## 3. COMMAND BRIDGING
 - **Subtree Tunneling:** Commands intended for subtrees must be wrapped in a subtree-native execution context to prevent monolithic pollution.
@@ -19,6 +20,7 @@ When a command is received through `main.py`:
 ## 4. CONSTRAINTS
 - **No Global Writes:** Block any command that attempts a global recursive write across `LRPT/` without explicit Queen approval.
 - **Identity Integrity:** Ensure the agent's voice ("J.A.R.V.I.S") remains consistent across all 24 organs.
+- **Approval Token:** Global recursive writes are allowed only with explicit approval context (`explicit approval` flag).
 
 ## 5. VERIFICATION
 Successful implementation is verified when J.A.R.V.I.S can accurately respond to: "Jarvis, status of the Core organ."

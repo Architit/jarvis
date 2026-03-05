@@ -25,3 +25,13 @@ def test_protocol_sync_header_present():
     text = (REPO_ROOT / "INTERACTION_PROTOCOL.md").read_text(encoding="utf-8")
     assert "protocol_source: RADRILONIUMA-PROJECT" in text
     assert "protocol_version: v1.0.0" in text
+
+
+def test_target_resolution_protocol_contains_phase_a_markers():
+    text = (REPO_ROOT / "ORCHESTRATION_TARGET_RESOLUTION_PROTOCOL.md").read_text(
+        encoding="utf-8"
+    )
+    assert "system_id" in text
+    assert "subtree_prefix" in text
+    assert "No Global Writes" in text
+    assert "explicit approval" in text
