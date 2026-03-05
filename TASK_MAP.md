@@ -1,6 +1,6 @@
 # TASK_MAP
 
-last_updated_utc: 2026-03-05T16:24:00Z
+last_updated_utc: 2026-03-05T17:03:00Z
 owner_repo: J.A.R.V.I.S
 scope: master-plan aligned owner tasks (Phase A/B/C/D)
 
@@ -14,3 +14,4 @@ scope: master-plan aligned owner tasks (Phase A/B/C/D)
 | phaseB_closure | Phase B owner closure evidence | COMPLETE | JRV-01 | `gov/report/phaseB_jarvis_owner_closure_2026-03-05.md` |
 | phaseC_C3 | Phase C owner memory wave execution | COMPLETE | JRV-01 | `contract/PHASE_C_MEMORY_ROUTING_CONTRACT_V1.md`, `tests/test_phase_c_memory_routing_contract.py`, `gov/report/phaseC_jarvis_wave1_execution_2026-03-05.md` |
 | phaseD_D2 | Phase D owner transport wave execution | COMPLETE | JRV-01 | `contract/PHASE_D_TRANSPORT_ROUTING_CONTRACT_V1.md`, `tests/test_phase_d_transport_routing_contract.py`, `gov/report/phaseD_jarvis_transport_wave1_execution_2026-03-05.md` |
+| phaseE_E2 | Phase E owner flow-control wave execution | COMPLETE | JRV-01 | `contract/PHASE_E_FLOW_CONTROL_ROUTING_CONTRACT_V1.md`, `tests/test_phase_e_flow_control_routing_contract.py`, `gov/report/phaseE_jarvis_flow_control_wave1_execution_2026-03-05.md` |

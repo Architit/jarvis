@@ -17,3 +17,6 @@ Format:
 2026-03-05 12:35 UTC — phaseB owner closure: runtime contract guardrails synchronized (`--sha256/--task-id/--spec-file`, status/error_code, conflict_detected), governance/test entrypoint wired (`--patch-runtime`, `--governance`), and closure evidence added.
 2026-03-05 15:54 UTC — phaseC owner closure: routing memory contract execution completed; verify passed (--memory 6, --patch-runtime 4, --governance 3/16 deselected, --all 19), evidence synced.
 2026-03-05 16:24 UTC — phaseD owner closure: routing transport contract execution completed; verify passed (--transport 6, --patch-runtime 4, --governance 3/18 deselected, --all 21), evidence synced.
+
+2026-03-05 17:03 UTC — phaseE owner closure: flow-control routing contract execution staged (contract+tests+--flow-control+report).
+2026-03-05 17:04 UTC — phaseE owner closure: flow-control routing contract execution completed; verify passed (--flow-control 6, --patch-runtime 4, --governance 3/20 deselected, --all 23), evidence synced.
