@@ -48,11 +48,17 @@ case "${1:---all}" in
   --unit-only)
     run_pytest_allow_empty -q tests -m "not integration"
     ;;
+  --governance)
+    "$PYTEST_BIN" -q tests -k governance
+    ;;
+  --patch-runtime)
+    "$PYTEST_BIN" -q tests/test_phase_b_patch_runtime_contract.py
+    ;;
   --ci)
     "$PYTEST_BIN" -q tests --maxfail=1
     ;;
   *)
-    echo "usage: $0 [--all|--unit-only|--integration|--ci]"
+    echo "usage: $0 [--all|--unit-only|--integration|--governance|--patch-runtime|--ci]"
     exit 2
     ;;
 esac
